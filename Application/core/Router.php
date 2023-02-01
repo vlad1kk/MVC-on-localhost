@@ -8,31 +8,25 @@ class Router {
 
     public function __construct(){
         $arr = require 'application/config/routes.php';
-        // debug($arr);
         foreach($arr as $key => $val) {
             $this->add($key, $val);
         }
-        // debug($this->routes);
     }
 
-    // //Функція додавання маршруту:
+    //Функція додавання маршруту:
     public function add($route, $params){
-        // echo '<br>';
-        // var_dump($params);
-        // echo '<p>'.$route.'</p>';
         $route = '#^'.$route.'$#';
         $this->routes[$route] = $params;
     }
 
-    // //Функція на перевірку маршруту:
+    //Функція на перевірку маршруту:
     public function match(){
-    //     //Отримуємо поточний URL:
-    //     //функцією trim видаляємо "/"
+        //Отримуємо поточний URL:
+        //функцією trim видаляємо "/"
         $url = trim($_SERVER['REQUEST_URI'], '/');
-    //     //Перебираємо масив маршрутів:
+        //Перебираємо масив маршрутів:
         foreach($this->routes as $route => $params){
-            // var_dump($route);
-    //         //функція preg_match - виконує пошук у рядку за регулярним виразом
+    //функція preg_match - виконує пошук у рядку за регулярним виразом
             if (preg_match($route, $url, $matches)){
                 $this->params = $params;
                 return true;
@@ -43,11 +37,16 @@ class Router {
 
     //Функція яка буде запускати роутер:
     public function run() {
-        // echo 'start';
         $this->match();
         if($this->match()){
-            echo '<p>controller: <b>'.$this->params['controller'].'</b></p>';
-            echo '<p>action: <b>'.$this->params['action'].'</b></p>';
+            //ucfirst() - функція, яка перетворює перший символ рядка у верхній регістр
+            $controller = 'application\controllers\\'.ucfirst($this->params['controller']).'Controller.php';
+            //class_exists() - функція, яка перевіряє, чи був оголошений клас
+            if(class_exists($controller)){
+                echo 'OK';
+            } else {
+                echo 'Не знайдений: '. $controller;
+            }
         } else {
             echo 'Маршрут не знайдений';
         }
