@@ -40,12 +40,18 @@ class Router {
         $this->match();
         if($this->match()){
             //ucfirst() - функція, яка перетворює перший символ рядка у верхній регістр
-            $controller = 'application\controllers\\'.ucfirst($this->params['controller']).'Controller.php';
+            $path = 'application\controllers\\'.ucfirst($this->params['controller']).'Controller';
             //class_exists() - функція, яка перевіряє, чи був оголошений клас
-            if(class_exists($controller)){
-                echo 'OK';
+            if(class_exists($path)){
+                $action = $this->params['action'].'Action';
+                if(method_exists($path, $action)){
+                    $controller = new $path($this->params);
+                    $controller->$action();
+                } else {
+                    echo'Екшн не знайдений: '.$action;
+                }
             } else {
-                echo 'Не знайдений: '. $controller;
+                echo 'Контроллер не знайдений: '. $path;
             }
         } else {
             echo 'Маршрут не знайдений';
