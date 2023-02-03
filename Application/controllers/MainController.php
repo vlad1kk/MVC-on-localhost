@@ -7,7 +7,8 @@ use application\core\Controller;
 class MainController extends Controller{
 
     public function indexAction() {
-        echo 'Головна сторінка';
+        $this->view->render('Головна сторінка');
+        // echo 'Головна сторінка';
     }
 
 }
