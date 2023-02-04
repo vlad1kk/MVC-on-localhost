@@ -2,6 +2,9 @@
 
 namespace application\core;
 
+use application\core\View;
+
+
 class Router {
     protected $routes = [];
     protected $params = [];
@@ -48,13 +51,13 @@ class Router {
                     $controller = new $path($this->params);
                     $controller->$action();
                 } else {
-                    echo'Екшн не знайдений: '.$action;
+                    View::errorCode(404);
                 }
             } else {
-                echo 'Контроллер не знайдений: '. $path;
+                View::errorCode(404);
             }
         } else {
-            echo 'Маршрут не знайдений';
+            View::errorCode(404);
         }
     }
 }
