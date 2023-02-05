@@ -10,7 +10,8 @@ class MainController extends Controller{
     public function indexAction() {
 
         $db = new Db;
-        $db->query('SELECT name FROM users WHERE id = 1');
+        $data = $db->row('SELECT name FROM users');
+        debug($data);
         
         $this->view->render('Головна сторінка');
     }
