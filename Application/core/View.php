@@ -14,8 +14,10 @@ namespace application\core;
     }
 
     public function render($title, $vars =[]) {
+        //extract() — функці, яка імпортує змінні з масиву до поточної таблиці символів;
         extract($vars);
         $path = 'application/views/'.$this->path.'.php';
+        //file_exists - функція, яка перевіряє існування вказаного файлу чи каталогу;
         if(file_exists($path)){
             //ob_start()-функція включення буфера виводу;
             ob_start();
