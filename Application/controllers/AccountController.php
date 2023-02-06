@@ -13,5 +13,4 @@ class AccountController extends Controller{
     public function registerAction() {
         $this->view->render('Реєстрація');
     }
-
 }
